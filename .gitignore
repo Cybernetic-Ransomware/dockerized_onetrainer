@@ -122,3 +122,16 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Data Files:
+/data/**/*.tif
+/data/**/*.png
+/data/**/*.jpg
+/data/**/*.jpeg
+/data/**/*.txt
+/data/OneTrainer/models/*
+
+# Placeholder exceptions
+!data/OneTrainer/cache/placeholder.txt
+!data/OneTrainer/work/placeholder.txt
+!data/output/placeholder.txt

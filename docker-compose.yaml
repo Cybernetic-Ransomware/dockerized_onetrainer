@@ -1,0 +1,55 @@
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    env_file:
+      - .env
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"  # API Port
+      - "9001:9001"  # Console Port
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  minio-setup:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    env_file:
+      - .env
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      /usr/bin/mc mb myminio/${MINIO_BUCKET} --ignore-existing;
+      /usr/bin/mc cp --recursive /data/ myminio/${MINIO_BUCKET}/;
+      "
+    volumes:
+      - ./data:/data
+
+  onetrainer:
+    build: .
+    container_name: onetrainer
+    runtime: nvidia
+    env_file:
+      - .env
+    depends_on:
+      minio-setup:
+        condition: service_completed_successfully
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    shm_size: '16g'
+    ulimits:
+      memlock:
+        soft: 64424509440  # 60GB
+        hard: 64424509440  # 60GB
+
+volumes:
+  minio_data:
