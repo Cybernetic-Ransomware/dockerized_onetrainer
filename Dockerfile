@@ -1,7 +1,10 @@
-FROM nvidia/cuda:12.9.1-cudnn-runtime-ubuntu24.04
-
+FROM nvidia/cuda:13.0.0-cudnn-runtime-ubuntu24.04
 
 RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    build-essential apt-utils \
+    wget curl vim git ca-certificates kmod \
+    nvidia-driver-525 \    
     python3 python3-pip python3.12-venv \
     git libgl1 libglib2.0-0 s3fs \
     && rm -rf /var/lib/apt/lists/*
@@ -9,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 RUN ln -sf /usr/bin/python3 /usr/bin/python && \
     ln -sf /usr/bin/pip3 /usr/bin/pip
 
-RUN pip install --no-cache-dir --break-system-packages torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu129 && \
+RUN pip install --no-cache-dir --break-system-packages torch torchvision --index-url https://download.pytorch.org/whl/cu129 && \
     pip install --no-cache-dir --break-system-packages tensorflow && \
     pip install --no-cache-dir --break-system-packages -U "huggingface_hub[cli]"
 
@@ -28,4 +31,4 @@ CMD hf auth login --token ${HF_TOKEN} && \
     s3fs ${MINIO_BUCKET} ${MINIO_MOUNT} -o passwd_file=/etc/passwd-s3fs -o url=${MINIO_ENDPOINT} -o use_path_request_style -o allow_other && \
     nvidia-smi && \
     ulimit -a  && \
-    ./venv/bin/python scripts/train.py --config-path /mnt/s3data/OneTrainer/training_presets/flux_lora_backup_af_epoch_sierpien.json
+    ./venv/bin/python scripts/train.py --config-path /mnt/s3data/OneTrainer/training_presets/flux_lora_backup_af_epoch_sierpien_JDTAG.json

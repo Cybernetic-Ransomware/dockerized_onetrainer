@@ -41,6 +41,13 @@ services:
     depends_on:
       minio-setup:
         condition: service_completed_successfully
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     cap_add:
       - SYS_ADMIN
     devices:
