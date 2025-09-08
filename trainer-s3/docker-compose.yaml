@@ -1,0 +1,30 @@
+services:
+  trainer-s3:
+    build: .
+    container_name: trainer-s3
+    runtime: nvidia
+    env_file:
+      - .env
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    shm_size: '16g'
+    ulimits:
+      memlock:
+        soft: 64424509440  # 60GB
+        hard: 64424509440  # 60GB
+    volumes:
+      - hf_cache:/root/.cache/huggingface  # model
+      - ./local_training_data:/opt/onetrainer/local_training_data  # images + desc
+      - ./trainer_backups:/opt/onetrainer/training_backups  # .safetensors after epoch
+
+volumes:
+  hf_cache:
