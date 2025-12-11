@@ -1,5 +1,11 @@
 # Dockerized OneTrainer
 
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Windows 11](https://img.shields.io/badge/Windows%2011-%230078d4.svg?style=for-the-badge&logo=windows&logoColor=white)
+![NVIDIA](https://img.shields.io/badge/nVIDIA-%2376B900.svg?style=for-the-badge&logo=nvidia&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![MinIO](https://img.shields.io/badge/Minio-C72E49?style=for-the-badge&logo=minio&logoColor=white)
+
 ## Overview
 
 This project provides a containerized environment for OneTrainer, optimized for Windows 11 systems running Docker Desktop with an NVIDIA RTX 5090. It encapsulates all dependencies, including CUDA libraries and Python environments, to simplify the setup and execution of AI model training tasks.
