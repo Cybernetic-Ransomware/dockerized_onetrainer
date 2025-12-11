@@ -8,7 +8,7 @@
 
 ## Overview
 
-This project provides a containerized environment for OneTrainer, optimized for Windows 11 systems running Docker Desktop with an NVIDIA RTX 5090. It encapsulates all dependencies, including CUDA libraries and Python environments, to simplify the setup and execution of AI model training tasks.
+This project provides a containerized environment for [OneTrainer](https://github.com/Nerogar/OneTrainer), optimized for Windows 11 systems running Docker Desktop with an NVIDIA RTX 5090. It encapsulates all dependencies, including CUDA libraries and Python environments, to simplify the setup and execution of AI model training tasks.
 
 ## Features
 
