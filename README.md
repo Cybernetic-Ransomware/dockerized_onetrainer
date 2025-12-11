@@ -1,33 +1,66 @@
-# 🚀 Dockerized OneTrainer
+# Dockerized OneTrainer
 
-<!-- BANNER: Project Logo/Hero Image Here -->
+## Overview
 
-## ✨ Overview
+This project provides a containerized environment for OneTrainer, optimized for Windows 11 systems running Docker Desktop with an NVIDIA RTX 5090. It encapsulates all dependencies, including CUDA libraries and Python environments, to simplify the setup and execution of AI model training tasks.
 
-This project provides a Dockerized environment for OneTrainer, specifically tailored for Windows 11 systems running Docker Desktop and equipped with an NVIDIA RTX 5090 graphics card. It aims to simplify the setup and execution of AI model training tasks by encapsulating all dependencies within a container.
+## Features
 
-## 🌟 Features
+-   **Containerized Environment**: Consistent, isolated environment for OneTrainer execution.
+-   **GPU Acceleration**: Configured for NVIDIA RTX 5090 using the latest NVIDIA Container Toolkit.
+-   **CUDA 13 Ready**: Built upon `nvidia/cuda:13.0.0-cudnn-runtime-ubuntu24.04` for cutting-edge performance.
+-   **Integrated Storage**: Includes a local MinIO object storage service for managing training data and outputs.
 
--   **Containerized Environment**: Easy setup and consistent environment for OneTrainer.
--   **GPU Acceleration**: Optimized for NVIDIA RTX 5090 on Windows 11 with Docker Desktop.
--   **Simplified Dependency Management**: All required libraries and tools are pre-configured within the Docker image.
+## System Requirements
 
-## 💻 System Requirements
+To run this project, ensure your system meets the following criteria:
 
-To effectively run this project, you will need:
+-   **Operating System**: Windows 11 (WSL2 backend recommended for Docker).
+-   **Software**: Docker Desktop for Windows.
+-   **Hardware**: NVIDIA RTX 5090 (or other compatible high-end NVIDIA GPU).
+-   **Drivers**: Latest NVIDIA Game Ready or Studio Drivers supporting CUDA 13.
 
--   **Operating System**: Windows 11
--   **Containerization**: Docker Desktop for Windows
--   **Graphics Card**: NVIDIA RTX 5090 (or compatible NVIDIA GPU with appropriate drivers and CUDA Toolkit)
+## Getting Started
 
-## 🚀 Getting Started
+### 1. Configuration
 
-More detailed instructions will follow.
+Create a `.env` file in the root directory by copying the provided template:
 
-## 🤝 Contributing
+```bash
+cp .env.template .env
+```
 
-Contributions are welcome!
+Open `.env` and configure the necessary variables, particularly your Hugging Face token if required:
 
-## 📄 License
+-   `HF_TOKEN`: Your Hugging Face access token.
+-   `MINIO_...`: MinIO configuration (default values are usually sufficient for local testing).
 
-This project is licensed under the [LICENSE.md](LICENSE.md) file.
+### 2. Launching the Environment
+
+Build and start the services using Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+This command will:
+1.  Start the MinIO object storage service.
+2.  Initialize the storage buckets.
+3.  Build the OneTrainer container (installing all dependencies).
+4.  Start the training process as defined in the `CMD` of the Dockerfile.
+
+### 3. Monitoring
+
+Monitor the training progress via the container logs:
+
+```bash
+docker-compose logs -f onetrainer
+```
+
+## Contributing
+
+Contributions are welcome. Please ensure any modifications adhere to the project's coding standards and license requirements.
+
+## License
+
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). See the [LICENSE.md](LICENSE.md) file for details.
